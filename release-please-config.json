@@ -5,7 +5,8 @@
   "bump-patch-for-minor-pre-major": false,
   "packages": {
     ".": {
-      "package-name": "wswsmd"
+      "package-name": "wswsmd",
+      "include-component-in-tag": false
     }
   }
 }
