@@ -1,0 +1,23 @@
+name: PR title
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  check-title:
+    name: Enforce Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Squash merges use the PR title as the commit message, and that's
+          # what release-please parses to determine the next version bump —
+          # so the title (not each individual commit) must be a valid
+          # Conventional Commit.
+          requireScope: false

@@ -27,3 +27,7 @@ wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" -o article.md
 pip install -e ".[test]"
 pytest
 ```
+
+Pull request titles must follow [Conventional Commits](https://www.conventionalcommits.org/)
+— see [CONTRIBUTING.md](CONTRIBUTING.md). Releases are automated with
+[release-please](https://github.com/googleapis/release-please).
