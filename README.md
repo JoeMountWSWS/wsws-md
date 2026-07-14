@@ -8,7 +8,7 @@ A tool to convert articles from the World Socialist Web Site to Markdown format.
 ## Install
 
 ```sh
-pip install .
+pip install wsws-md
 ```
 
 ## Usage
