@@ -1,4 +1,8 @@
-# wsws-md
+# WSWS Markdown
+
+[![CI](https://github.com/JoeMountWSWS/wsws-md/actions/workflows/ci.yml/badge.svg)](https://github.com/JoeMountWSWS/wsws-md/actions/workflows/ci.yml)
+[![Publish to PyPI](https://github.com/JoeMountWSWS/wsws-md/actions/workflows/publish.yml/badge.svg)](https://github.com/JoeMountWSWS/wsws-md/actions/workflows/publish.yml)
+
 A tool to convert articles from the World Socialist Web Site to Markdown format.
 
 ## Install
