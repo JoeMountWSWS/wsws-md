@@ -23,6 +23,16 @@ def test_build_parser_accepts_output_flag():
     assert args.output == "out.md"
 
 
+def test_build_parser_accepts_no_frontmatter_flag():
+    parser = cli.build_parser()
+
+    args = parser.parse_args([URL])
+    assert args.no_frontmatter is False
+
+    args = parser.parse_args([URL, "--no-frontmatter"])
+    assert args.no_frontmatter is True
+
+
 def test_main_prints_markdown_to_stdout(capsys):
     html = FIXTURE.read_text()
     with patch("wswsmd.cli.fetch_html", return_value=html):
@@ -41,6 +51,17 @@ def test_main_writes_markdown_to_file(tmp_path):
 
     assert exit_code == 0
     assert "The Colorado primary" in output_file.read_text()
+
+
+def test_main_omits_frontmatter_when_flag_passed(capsys):
+    html = FIXTURE.read_text()
+    with patch("wswsmd.cli.fetch_html", return_value=html):
+        exit_code = cli.main([URL, "--no-frontmatter"])
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert not captured.out.startswith("---\n")
+    assert "The Colorado primary" in captured.out
 
 
 def test_main_reports_fetch_errors(capsys):

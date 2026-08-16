@@ -25,6 +25,13 @@ to write to a file instead:
 wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" -o article.md
 ```
 
+Use `--no-frontmatter` to omit the YAML header and print just the title,
+byline and body:
+
+```sh
+wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" --no-frontmatter
+```
+
 ## Development
 
 ```sh

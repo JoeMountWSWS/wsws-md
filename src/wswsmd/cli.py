@@ -22,6 +22,11 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="FILE",
         help="write Markdown to FILE instead of printing to stdout",
     )
+    parser.add_argument(
+        "--no-frontmatter",
+        action="store_true",
+        help="omit the YAML frontmatter header from the output",
+    )
     return parser
 
 
@@ -38,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"wswsmd: {exc}", file=sys.stderr)
         return 1
 
-    markdown = to_markdown(article)
+    markdown = to_markdown(article, include_frontmatter=not args.no_frontmatter)
 
     if args.output:
         with open(args.output, "w", encoding="utf-8") as f:

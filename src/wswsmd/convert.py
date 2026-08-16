@@ -30,11 +30,14 @@ def _byline(article: Article) -> str:
     return f"*{' — '.join(parts)}*" if parts else ""
 
 
-def to_markdown(article: Article) -> str:
+def to_markdown(article: Article, include_frontmatter: bool = True) -> str:
     body = markdownify(article.body_html, heading_style=ATX, bullets="-").strip()
     body = _BLANK_LINES.sub("\n\n", body)
 
-    sections = [_frontmatter(article), f"# {article.title}"]
+    sections = []
+    if include_frontmatter:
+        sections.append(_frontmatter(article))
+    sections.append(f"# {article.title}")
     byline = _byline(article)
     if byline:
         sections.append(byline)

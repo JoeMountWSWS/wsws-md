@@ -29,6 +29,17 @@ def test_frontmatter(markdown):
     assert "*Patrick Martin — 2 July 2026*" in rest
 
 
+def test_frontmatter_omitted_when_disabled():
+    html = FIXTURE.read_text()
+    article = parse_article(html, URL)
+    markdown = to_markdown(article, include_frontmatter=False)
+
+    assert not markdown.startswith("---\n")
+    assert 'title: "' not in markdown
+    assert "# The Colorado primary and the growing support for socialism" in markdown
+    assert "*Patrick Martin — 2 July 2026*" in markdown
+
+
 def test_body_is_markdown_paragraphs(markdown):
     assert "Diana DeGette" in markdown
     assert "<p>" not in markdown
