@@ -84,6 +84,26 @@ def test_main_strips_links_when_flag_passed(capsys):
     assert "](https://" not in captured.out
 
 
+def test_build_parser_accepts_quiet_and_verbose_flags():
+    parser = cli.build_parser()
+
+    args = parser.parse_args([URL])
+    assert args.quiet is False
+    assert args.verbose is False
+
+    args = parser.parse_args([URL, "--quiet"])
+    assert args.quiet is True
+
+    args = parser.parse_args([URL, "--verbose"])
+    assert args.verbose is True
+
+
+def test_build_parser_rejects_quiet_and_verbose_together():
+    parser = cli.build_parser()
+    with pytest.raises(SystemExit):
+        parser.parse_args([URL, "--quiet", "--verbose"])
+
+
 def test_main_reports_fetch_errors(capsys):
     with patch("wswsmd.cli.fetch_html", side_effect=requests.ConnectionError("boom")):
         exit_code = cli.main([URL])
@@ -91,6 +111,36 @@ def test_main_reports_fetch_errors(capsys):
     captured = capsys.readouterr()
     assert exit_code == 1
     assert "failed to fetch" in captured.err
+
+
+def test_main_verbose_prints_diagnostics_to_stderr(capsys):
+    html = FIXTURE.read_text()
+    with patch("wswsmd.cli.fetch_html", return_value=html):
+        exit_code = cli.main([URL, "--verbose"])
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "fetching" in captured.err
+    assert "parsing" in captured.err
+
+
+def test_main_quiet_suppresses_diagnostics_but_keeps_errors(capsys):
+    with patch("wswsmd.cli.fetch_html", side_effect=requests.ConnectionError("boom")):
+        exit_code = cli.main([URL, "--quiet"])
+
+    captured = capsys.readouterr()
+    assert exit_code == 1
+    assert "failed to fetch" in captured.err
+
+
+def test_main_default_verbosity_omits_diagnostics(capsys):
+    html = FIXTURE.read_text()
+    with patch("wswsmd.cli.fetch_html", return_value=html):
+        exit_code = cli.main([URL])
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert captured.err == ""
 
 
 def test_main_reports_parse_errors(capsys):

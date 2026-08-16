@@ -48,6 +48,13 @@ need the cross-links):
 wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" --no-links
 ```
 
+Use `-q`/`--quiet` to suppress non-error diagnostic output, or `-v`/`--verbose`
+to print fetch/parse diagnostics to stderr:
+
+```sh
+wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" --verbose
+```
+
 ## Claude Skill
 
 This repo also ships a [Claude Skill](https://github.com/JoeMountWSWS/wsws-md/tree/main/skills/wsws-md)
