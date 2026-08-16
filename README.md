@@ -24,13 +24,19 @@ to write to a file instead:
 ```sh
 wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" -o article.md
 ```
-
 Use `--no-frontmatter` to omit the YAML header and print just the title,
 byline and body:
 
 ```sh
 wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" --no-frontmatter
 ```
+
+## Claude Skill
+
+This repo also ships a [Claude Skill](https://github.com/JoeMountWSWS/wsws-md/tree/main/skills/wsws-md)
+that wraps the CLI so Claude can convert WSWS articles to Markdown directly. Download the
+packaged `wsws-md-skill-*.zip` from the [Releases](https://github.com/JoeMountWSWS/wsws-md/releases)
+page and upload it as a Skill in Claude.ai.
 
 ## Development
 
