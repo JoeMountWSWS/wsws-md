@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 
 import requests
@@ -49,7 +50,16 @@ def main(argv: list[str] | None = None) -> int:
         with open(args.output, "w", encoding="utf-8") as f:
             f.write(markdown)
     else:
-        print(markdown, end="")
+        try:
+            print(markdown, end="")
+            sys.stdout.flush()
+        except BrokenPipeError:
+            # Downstream reader (e.g. `head`) closed the pipe early. Redirect
+            # stdout to devnull so the interpreter's shutdown flush doesn't
+            # also raise, then exit quietly like other Unix CLI tools do.
+            devnull = os.open(os.devnull, os.O_WRONLY)
+            os.dup2(devnull, sys.stdout.fileno())
+            return 1
 
     return 0
 

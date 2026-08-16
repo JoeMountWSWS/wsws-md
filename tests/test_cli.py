@@ -80,3 +80,15 @@ def test_main_reports_parse_errors(capsys):
     captured = capsys.readouterr()
     assert exit_code == 1
     assert "wswsmd:" in captured.err
+
+
+def test_main_handles_broken_pipe_gracefully(capsys):
+    html = FIXTURE.read_text()
+    with patch("wswsmd.cli.fetch_html", return_value=html):
+        with patch("builtins.print", side_effect=BrokenPipeError):
+            with patch("sys.stdout.fileno", return_value=1):
+                with patch("os.dup2") as mock_dup2:
+                    exit_code = cli.main([URL])
+
+    assert exit_code == 1
+    mock_dup2.assert_called_once()
