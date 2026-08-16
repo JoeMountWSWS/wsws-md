@@ -5,6 +5,15 @@
 
 A tool to convert articles from the World Socialist Web Site to Markdown format.
 
+## Why not a generic URL-to-Markdown tool?
+
+Generic converters guess at the main content block, so they often leak WSWS
+site chrome (share icons, newsletter widgets, "Read more" blocks) into the
+output or strip real content by mistake. This tool targets WSWS's actual
+markup (`itemprop="articleBody"`, `/en/authors/` links, `<time datetime>`) for
+exact extraction and frontmatter, at the cost of being tied to WSWS's current
+template.
+
 ## Install
 
 ```sh
