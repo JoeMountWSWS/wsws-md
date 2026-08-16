@@ -1,10 +1,18 @@
 import re
 
+from bs4 import BeautifulSoup
 from markdownify import ATX, markdownify
 
 from wswsmd.parse import Article
 
 _BLANK_LINES = re.compile(r"\n{3,}")
+
+
+def _strip_links(html: str) -> str:
+    soup = BeautifulSoup(html, "html.parser")
+    for anchor in soup.find_all("a"):
+        anchor.unwrap()
+    return str(soup)
 
 
 def _yaml_str(value: str) -> str:
@@ -30,8 +38,11 @@ def _byline(article: Article) -> str:
     return f"*{' — '.join(parts)}*" if parts else ""
 
 
-def to_markdown(article: Article, include_frontmatter: bool = True) -> str:
-    body = markdownify(article.body_html, heading_style=ATX, bullets="-").strip()
+def to_markdown(
+    article: Article, include_frontmatter: bool = True, strip_links: bool = False
+) -> str:
+    body_html = _strip_links(article.body_html) if strip_links else article.body_html
+    body = markdownify(body_html, heading_style=ATX, bullets="-").strip()
     body = _BLANK_LINES.sub("\n\n", body)
 
     sections = []

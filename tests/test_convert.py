@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 
 from wswsmd.convert import to_markdown
-from wswsmd.parse import parse_article
+from wswsmd.parse import Article, parse_article
 
 FIXTURE = Path(__file__).parent / "fixtures" / "coeq-j03.html"
 URL = "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html"
@@ -56,3 +56,37 @@ def test_inline_emphasis_preserved(markdown):
     assert (
         "*Washington Post*" in markdown
     )  # <em>Washington Post</em> converts to emphasis
+
+
+@pytest.fixture
+def linked_article():
+    return Article(
+        title="Linked article",
+        author="J. Author",
+        date_iso="2026-07-02",
+        date_display="2 July 2026",
+        url=URL,
+        description="",
+        body_html=(
+            "<p>See <a href='https://www.wsws.org/en/articles/x.html'>"
+            "socialist internationalism</a> and <a href='https://example.com'>"
+            "this <em>other</em> report</a> for more.</p>"
+        ),
+    )
+
+
+def test_links_kept_by_default(linked_article):
+    markdown = to_markdown(linked_article)
+    assert (
+        "[socialist internationalism](https://www.wsws.org/en/articles/x.html)"
+        in markdown
+    )
+
+
+def test_no_links_strips_hyperlinks_but_keeps_text(linked_article):
+    markdown = to_markdown(linked_article, strip_links=True)
+    assert "socialist internationalism" in markdown
+    assert "this *other* report" in markdown
+    assert "[socialist internationalism]" not in markdown
+    assert "https://www.wsws.org/en/articles/x.html" not in markdown
+    assert "https://example.com" not in markdown

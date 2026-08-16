@@ -64,6 +64,26 @@ def test_main_omits_frontmatter_when_flag_passed(capsys):
     assert "The Colorado primary" in captured.out
 
 
+def test_build_parser_accepts_no_links_flag():
+    parser = cli.build_parser()
+
+    args = parser.parse_args([URL])
+    assert args.no_links is False
+
+    args = parser.parse_args([URL, "--no-links"])
+    assert args.no_links is True
+
+
+def test_main_strips_links_when_flag_passed(capsys):
+    html = FIXTURE.read_text()
+    with patch("wswsmd.cli.fetch_html", return_value=html):
+        exit_code = cli.main([URL, "--no-links"])
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "](https://" not in captured.out
+
+
 def test_main_reports_fetch_errors(capsys):
     with patch("wswsmd.cli.fetch_html", side_effect=requests.ConnectionError("boom")):
         exit_code = cli.main([URL])

@@ -40,6 +40,14 @@ byline and body:
 wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" --no-frontmatter
 ```
 
+Use `--no-links` to strip hyperlinks from the body text, keeping only the
+link text (useful when feeding the article into another tool that doesn't
+need the cross-links):
+
+```sh
+wswsmd "https://www.wsws.org/en/articles/2026/07/03/coeq-j03.html" --no-links
+```
+
 ## Claude Skill
 
 This repo also ships a [Claude Skill](https://github.com/JoeMountWSWS/wsws-md/tree/main/skills/wsws-md)

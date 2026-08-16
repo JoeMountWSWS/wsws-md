@@ -28,6 +28,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="omit the YAML frontmatter header from the output",
     )
+    parser.add_argument(
+        "--no-links",
+        action="store_true",
+        help="strip hyperlinks from the body text, keeping only the link text",
+    )
     return parser
 
 
@@ -44,7 +49,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"wswsmd: {exc}", file=sys.stderr)
         return 1
 
-    markdown = to_markdown(article, include_frontmatter=not args.no_frontmatter)
+    markdown = to_markdown(
+        article,
+        include_frontmatter=not args.no_frontmatter,
+        strip_links=args.no_links,
+    )
 
     if args.output:
         with open(args.output, "w", encoding="utf-8") as f:
