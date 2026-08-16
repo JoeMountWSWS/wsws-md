@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/JoeMountWSWS/wsws-md/compare/v0.2.0...v0.3.0) (2026-08-16)
+
+
+### Features
+
+* **cli:** add --no-links flag to strip hyperlinks from body text ([#16](https://github.com/JoeMountWSWS/wsws-md/issues/16)) ([e71cc0a](https://github.com/JoeMountWSWS/wsws-md/commit/e71cc0a4fea31b44b3577e9c7b89a4c9f4b2678c))
+* **cli:** add --quiet/--verbose flags for batch-friendly logging ([#18](https://github.com/JoeMountWSWS/wsws-md/issues/18)) ([45cf65e](https://github.com/JoeMountWSWS/wsws-md/commit/45cf65eef806c81f8f7ea16814707b87acfd9722))
+
 ## [0.2.0](https://github.com/JoeMountWSWS/wsws-md/compare/v0.1.2...v0.2.0) (2026-08-16)
 
 
