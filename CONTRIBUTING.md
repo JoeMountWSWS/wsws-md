@@ -36,4 +36,9 @@ Releases are automated with release-please (`.github/workflows/release-please.ym
 On every push to `main`, it opens/updates a "release PR" that bumps the
 version in `pyproject.toml` and updates `CHANGELOG.md` based on merged
 commits since the last release. Merging that PR creates the GitHub release
-and tag.
+and tag, which in turn publishes to PyPI and attaches the packaged Claude
+Skill to the release.
+
+See [RELEASING.md](RELEASING.md) for the full process, including how the
+version bump is chosen, the required repository secrets, and how to recover
+from a failed publish.
